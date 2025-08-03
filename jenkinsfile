@@ -1,0 +1,25 @@
+pipeline{
+agent any
+ tools{
+     maven 'maven'
+}
+stages{
+Stage('clone the repo')
+   steps{
+     git 'https://github.com/vivekkb-code/java-webapp-project.git'
+}
+}
+stages{
+Stage('Build the code')
+   steps{
+     sh 'mvnpackage'
+}
+}
+stages{
+Stage('deploy the code')
+   steps{
+     deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'tomcatcredentials', path: '', url: 'http://54.87.125.99:8080/')], contextPath: null, war: '**/*.war'
+}
+}
+
+}
